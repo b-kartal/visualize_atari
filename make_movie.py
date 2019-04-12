@@ -1,7 +1,11 @@
 # Visualizing and Understanding Atari Agents | Sam Greydanus | 2017 | MIT License
 
 from __future__ import print_function
-import warnings ; warnings.filterwarnings('ignore') # mute warnings, live dangerously
+import warnings ; #warnings.filterwarnings('ignore') # mute warnings, live dangerously
+
+import matplotlib
+#matplotlib.use("Agg")
+
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl ; mpl.use("Agg")
@@ -17,6 +21,7 @@ def make_movie(env_name, checkpoint='*.tar', num_frames=20, first_frame=0, resol
     
     # set up dir variables and environment
     load_dir = '{}{}/'.format('overfit-' if overfit_mode else '', env_name.lower())
+    print(load_dir)
     meta = get_env_meta(env_name)
     env = gym.make(env_name) if not overfit_mode else OverfitAtari(env_name, load_dir+'expert/', seed=0) # make a seeded env
     
@@ -40,6 +45,7 @@ def make_movie(env_name, checkpoint='*.tar', num_frames=20, first_frame=0, resol
 
     prog = '' ; total_frames = len(history['ins'])
     f = plt.figure(figsize=[6, 6*1.3], dpi=resolution)
+
     with writer.saving(f, save_dir + movie_title, resolution):
         for i in range(num_frames):
             ix = first_frame+i
